@@ -1,83 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>B.F.G. DEVICES - BLOG - HYDRA DELAY</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="../assets/css/style.css"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
-<style>
-body,h4,h5 {font-family: 'Inter', sans-serif};
-h1,h2,h3 {font-family: 'Blacktastic Regular', sans-serif};
-</style>
-</head>
-<body class="w3-light-grey">
-
-<!-- w3-content defines a container for fixed size centered content,
-and is wrapped around the whole page content, except for the footer in this example -->
-<div class="w3-content" style="max-width:1400px;">
-  <!-- Navbar -->
-  <div class="w3-top">
-    <div style="color:#fff; background-color:#000;">
-      <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-      <!--<a href="#" class="w3-bar-item w3-button w3-padding-large" style="font-family:'Blocktastic Regular'; font-size: 26px;"><img src="images/Logo-BFG-Devices-Horizontal-Light.png"></a>-->
-      <a href="../index.html" class="navbar w3-bar-item w3-button w3-padding-large" style="font-family:'Blocktastic Regular'; font-size: 26px;">B.F.G. DEVICES</a>
-      <a href="../index.html#builds" style="font-family:'Blocktastic Regular'; font-size: 24px;" class="navbar w3-bar-item w3-button w3-padding-large w3-hide-small">BUILDS</a>
-      <a href="../index.html#about" style="font-family:'Blocktastic Regular'; font-size: 24px;" class="navbar w3-bar-item w3-button w3-padding-large w3-hide-small">ABOUT</a>
-      <a href="../blog.html" style="font-family:'Blocktastic Regular'; font-size: 24px;" class="navbar w3-bar-item w3-button w3-padding-large w3-hide-small">BLOG</a>
-      <a href="../index.html#shop" style="font-family:'Blocktastic Regular'; font-size: 24px;" class="navbar w3-bar-item w3-button w3-padding-large w3-hide-small">SHOP</a>
-      <a href="../index.html#customs" style="font-family:'Blocktastic Regular'; font-size: 24px;" class="navbar w3-bar-item w3-button w3-padding-large w3-hide-small">CONTACT</a>
-      <!--<div class="w3-dropdown-hover w3-hide-small">
-        <button class="w3-padding-large w3-button" style="font-family:'Blocktastic Regular'; font-size: 26px;" title="More">MORE <i class="fa fa-caret-down"></i></button>
-        <div class="w3-dropdown-content w3-bar-block w3-card-4">
-          <a href="#" style="font-family:'Blocktastic Regular'; font-size: 26px;" class="w3-bar-item w3-button">Merchandise</a>
-          <a href="#" style="font-family:'Blocktastic Regular'; font-size: 26px;" class="w3-bar-item w3-button">Extras</a>
-          <a href="#" style="font-family:'Blocktastic Regular'; font-size: 26px;" class="w3-bar-item w3-button">Media</a>
-        </div>
-      </div>
-    -->
-      <!--<a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>-->
-    </div>
-  </div>
-
-  <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
-  <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-    <a href="index.html#builds" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">BUILDS</a>
-    <a href="index.html#about" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">ABOUT</a>
-    <a href="index.html#blog" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">BLOG</a>
-    <a href="index.html#shop" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">SHOP</a>
-    <a href="index.html#customs" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONTACT</a>
-  </div>
-<!-- Header -->
-<header class="w3-container w3-center w3-padding-32" >
-  <h1 style="padding-top:40px;"><b>BFG DEVICES BLOG</b></h1>
-  <p>Welcome to the blog of <span class="w3-tag">Brandon Frenzel's Guitar Devices</span></p>
-</header>
-
 <!-- Blog entry -->
-<div class="w3-card-4 w3-margin w3-white">
-  <img src="../images/blog/Pedal-Hydra-Delay.jpg" alt="The Finished Project" style="width:100%">
-  <div class="w3-container">
-    <h3><b>Hydra Delay</b></h3>
-    <h6><span class="w3-opacity">January 31, 2023</span></h6>
-    <h5>Multi-Headed Delay Machine</h5>
-  </div>
+<div class="w3-margin">
+  <div class="w3-center"><img img class="w3-image w3-round-large w3-center" src="images/blog/Pedal-Hydra-Delay.jpg" alt="The Finished Project" style="width:75%"></div>
 
-  <div class="w3-container">
-    <h2>Overview</h2>
-    <p>After building my first kit pedal - The AION FX Refractor, I got the itch to build another pedal. Something harder, and to actually try sourcing all of the parts myself, so I could inject some more creativity into it. I had my eye on the PedalPCB "Hyrda" for some time. I needed a delay on my board that wasn't part of a multi-effect. Because apparently I like doing things the hard way.</p>
-    <p>I had been watching a lot of Agents of Shield and thought the evil organization of Hydra was really cool with the tentacles and so forth, so I had mocked up a design and patiently waited for the elusive SPIN FV1 to arrive in stock.</p>
-    <p>When COVID hit in 2020 - I got tired of waiting and went digging on Ali Express to source this elusive DSP chip.</p>
-    <p>Once I had the parts ordered I was left looking for ways to get the artwork implemented which inspired the whole build to begin with. I didn't know of any silk screening vendors in the Conejo area, or any that would even be open to doing a one-off like this.</p>
-    <p>Enter Mike from [vendor name], who graciously was open to listening to me about the project and was willing to take the time to talk me though some options. We weren't confident that we could etch the glossy enclosure down to the metal and I really wanted a splash of color. After all... It's a delay - it's gotta be green! So we decided to reverse etch the black backing off of a piece of vinyl, that was also cut by the laser. So it's a cover plate. It came out pretty great and then I thought; to really set this thing off, it should have UV reactive paint that makes it glow under blacklight (assuming I ever get out to a venue that has those again). I used some UV Reactive Green body paint to back fill the areas that were etched off.</p>
-    <p>I then got to work stuffing the board. I hadn't done SMD soldering before and that's the only configuration the SPIN FV-1 comes as. Following some Youtube tutorials, I managed to get it onto the board.</p>
-    <h3>Trouble Shooting</h3>
-    <p>I also blew up the voltage regulator by mixing up the polarity - a learning experience! Got another and fired it back up.</p>
-    <p>Nothing... ...?</p>
-    <p>The LED burned out almost immediately, but I actually had audio passing and changing! Yay?! This thing was already living up to it's name having to trouble shoot one thing, only for another to spring up in it's place.</p>
-    <p>Spent some time with the multimeter, the schematic, and after banging my head against the desk I changed the resistor value to the LED and it was now stable.</p>
-    <p>I marked the enclosure and drilled it and found it matched the faceplate, which just needed some sanding down to get the fit just right.</p>
-    <h3>Parts Used:</h3>
+  <h1><b>Hydra Delay</b></h1>
+  <h5>Multi-Headed Delay Machine</h5>
+  
+  
+  <h2>Overview</h2>
+  
+  <p>After building my first kit pedal - The AION FX Refractor, I got the itch to build another pedal. Something harder, and to actually try sourcing all of the parts myself, so I could inject some more creativity into it. I had my eye on the PedalPCB "Hyrda" for some time. I needed a delay on my board that wasn't part of a multi-effect. Because apparently I like doing things the hard way.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:50%" src="images/blog/posts/hydra-delay/hydra-artwork.png"/></div>
+  
+  <p>I had been watching a lot of Agents of Shield and thought the evil organization of Hydra was really cool with the tentacles and so forth, so I had mocked up a design and patiently waited for the elusive SPIN FV-1 to arrive in stock.</p>
+  
+  <p>When COVID hit in 2020 - I got tired of waiting and went digging on Ali Express to source this elusive DSP chip.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:25%" src="http://cdn.shopify.com/s/files/1/0135/0153/0212/products/Spin-FV-1.jpg?v=1628640228"/></div>
+
+  <p>Once I had the parts ordered I was left looking for ways to get the artwork implemented which inspired the whole build to begin with. I didn't know of any silk screening vendors in the Conejo area, or any that would even be open to doing a one-off like this.</p>
+  
+  <p>Enter Mike from [vendor name], who graciously was open to listening to me about the project and was willing to take the time to talk me though some options. We weren't confident that we could etch the glossy enclosure down to the metal and I really wanted a splash of color. After all... It's a delay - it's gotta be green! So we decided to reverse etch the black backing off of a piece of vinyl, that was also cut by the laser. So it's a cover plate. It came out pretty great and then I thought; to really set this thing off, it should have UV reactive paint that makes it glow under blacklight (assuming I ever get out to a venue that has those again). I used some UV Reactive Green body paint to back fill the areas that were etched off.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:50%" src="images/blog/posts/hydra-delay/spin-chip-smd.jpg"/></div>
+  
+  <p>I then got to work stuffing the board. I hadn't done SMD soldering before and that's the only configuration the SPIN FV-1 comes as. Following some Youtube tutorials, I managed to get it onto the board.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:50%" src="images/blog/posts/hydra-delay/hydra-assembly.jpg"/></div>
+  
+  <h3>Trouble Shooting</h3>
+  
+  <p>I also blew up the voltage regulator by mixing up the polarity - a learning experience! Got another and fired it back up.</p>
+  
+  <p>Nothing... ...?</p>
+  
+  <p>The LED burned out almost immediately, but I actually had audio passing and changing! Yay?! This thing was already living up to it's name having to trouble shoot one thing, only for another to spring up in it's place.</p>
+  
+  <p>Spent some time with the multimeter, the schematic, and after banging my head against the desk I changed the resistor value to the LED and it was now stable.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:50%" src="images/blog/posts/hydra-delay/hydra-internals.jpg"/></div>
+  
+  <p>I marked the enclosure and drilled it and found it matched the faceplate, which just needed some sanding down to get the fit just right.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:50%" src="images/blog/posts/hydra-delay/hydra-finished.jpg"/></div>
+  
+  <h3>Parts Used:</h3>
     <ul>
       <li>Enclosure: 125B Black Glossy from Tayda</li>
       <li>PCB: PedalPCB Hydra</li>
@@ -96,14 +63,10 @@ and is wrapped around the whole page content, except for the footer in this exam
     <h3>If I were to build it again</h3>
     <p>I'd want to update the style to the matte black and throw some green knobs on it instead to have a more uniform look with my latest pedals like the Moon Chorus, and change the artwork to something more original but keep the name.</p>
 
+  <h3>The sounds</h3>
+  <p>This thing sounds absolutely wicked. The AGE knob adds some great modulation to the delayed signal. I do kind of wish it had a Tap Tempo capabilitiy.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:50%" src="images/blog/posts/hydra-delay/hydra-onboard.jpg"/></div>
+
 <!-- END BLOG ENTRY -->
 </div>
-
-<!-- Footer -->
-<footer class="w3-container w3-padding-16 w3-center w3-opacity w3-light-grey w3-xlarge">
-  <h6>© 2023 BFG Devices / Brandon Frenzel. All Rights Reserved.</h6>
-  <p style="font-size:11px">All product names and/or trademarks are the sole property of their respective owners.</p>
-</footer>
-
-</body>
-</html>
