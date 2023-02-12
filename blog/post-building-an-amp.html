@@ -1,0 +1,108 @@
+<!-- Blog entry -->
+<div class="w3-margin">
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/Amp-BFG200G-Assembled.jpg" /></div>
+  
+  <h1>Let's build an amp!</h1>
+
+  <p>This has been my most ambitious project to date which incorporated the full array of my skills thus far. Having built a few pedals and using them with my Powercab 212+ (a great pedal platform, if I do say so myself!), I wanted to see if I could go further into designing a workable guitar amplifier.</p>
+
+  <p>I wanted something small, powerful, portable and capable of the tones that I am most inspired by. That happens to be inspired by Adam Jones of TOOL, who famously utilizes a Diezel VH4 and Marshall amps. Some may consider it heresy to claim that I&apos;ve never cared for and probably never will care for Marshall amps. But I do need a clean channel, and it would be cool to have a tube screamer built-in, so it&apos;s kind of an Adam Jones-in-a-box amp. For this build, I selected a&nbsp;<a href="https://pcbguitarmania.com/product/benzin-vh4/">Benzin VH</a>4 and&nbsp;<a href="https://pcbguitarmania.com/product/exotic-preamp/">Exotic Preamp</a> from PCB Guitar Mania. The VH4 gives me high gain for rhythm and lead tones, and the Exotic is TS-808 based with only a Bass+Treble Baxandall tone stack. So generally I just keep the Gain minimal for clean tones and turn it up when I want to act like a tube screamer which is fed into the second channel. Call it &quot;gain staging&quot; or &quot;channel jumping&quot;, or cascading brutality, but that&apos;s what it does.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/posts/bfg-200g/amp-components.jpg" /></div>
+  <p>I ordered parts and began test-fitting them to figure out how the layout was going to go. It would be a very compact unit, so I needed to plan carefully.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:50%" src="images/blog/bfg-200g/amp-channel-testwires.jpg" /></div>
+
+  <p>I built up the preamp boards and made a series of easily disconnectable wires to test it, since all the pots would be off-board.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:50%" src="images/blog/posts/bfg-200g/amp-knob-testing.jpg" /></div><br>
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:50%" src="images/blog/posts/bfg-200g/amp-knob-testing2.jpg" /></div>
+
+  <p>Following up on what I learned about the Relay Loop Switcher, I devised a simple board for switching channels, stacking them, and bypassing the FX Loop. It works in pretty much the same way as that project. A few momentary switches toggle between channels A, B, A+B, and Neither. LEDs indicate the channel and FX Loop states.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:50%" src="images/blog/posts/bfg-200g/amp-relay-board.jpg" /></div>
+
+  <p>After blowing up an Arduino, I ended up having to re-make this.</p>
+
+  <p>Luckily, that all worked out. So I moved on to drilling and assembling the chassis. God, what a mess of wires! Note to self: Learn how to make PCBs in the future.</p>
+   <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/posts/bfg-200g/amp-first-assembly.jpg" /></div>
+
+  <p>A lot of companies build tiny bass guitar amplifiers using class-D modules driven by analog preamps. However, the same methodology has not really been done for guitar amplifiers. I think it&apos;s a really cool idea to be able to throw an amp in a backpack and still be able to drive a 4x12 playing metal with a drummer.&nbsp;<br><br>Challenge accepted!</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/posts/bfg-200g/amp-icepower.jpg" /></div>
+
+  <p>For the actual amplification, I went with a ICE Power 200 AS1, which was easy enough to incorporate into a small enclosure without the need for cooling vents or fans. Yeah! Silently and passively cooled!</p>
+
+  <p>This module also provides DC power busses around 9V for digital components and 24V for analog components. The actual value differs greatly, so a couple more DC converters help keep voltages stable for the preamps and the micro controllers.</p>
+
+  <p>The Arduino syncs to the amplifier and sets the initial states of the LEDs to match. When a change occurs, it happens on both the amp and the footswitch. If the amp doesn&apos;t detect the footswitch on boot, it ignores it. One fun aspect about how this is done is that all the important code runs on the amp&apos;s microcontroller and &quot;slave&quot; code on the footswitch itself is minimal and provides access to the phantom GPIO ports.</p>
+
+  <h3>CONTROL</h3>
+
+  <p>One benefit of using the Arduino Nano, is that I can take advantage of it's GPIO capabilities to make a remote controllable footswitch. Typically, this sort of amp would read a simple footswitch circuit and match it's state.</p>
+
+  <p>But I wanted to have a footswitch that shows the channel state in the same way, with bi-directional communication and power it all off a TRS cable. To achieve this, I utilized the <a href="https://www.arduino.cc/reference/en/libraries/onewire/">Arduino OneWire Library</a>.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/posts/bfg-200g/footswitch-marking.jpg" /></div>
+
+  <p>The BFG 200G&apos;s clever footswitch is powered by 9V power stepped down to 5V using a converter, that providing DC power to the Arduino Nano. The extra 4 volts give it a little extra buffer room in case there is a voltage drop across the length of the TRS cable used.&nbsp;</p>
+
+  <h3>Marking the enclosure</h3>
+  <p>Now that I had etched a few powder-coated pedals, I wanted to see if I could etch this anodized aluminum enclosure. It honestly took quite a while running tests to see if it would work, and which settings would give me a good-looking result. I put some masking tap on the enclosure to make sure everything landed where it was supposed to.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/posts/bfg-200g/enclosure-marking.jpg" /></div>
+
+  <p>A few passes later I got this sort of gold look, which came out great.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/posts/bfg-200g/enclosure-finished.jpg" /></div>
+
+  <p>I then re-assembled it and consider it "done!"</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/Amp-BFG200G-Assembled.jpg" /></div>
+
+
+<h3>Features:</h3>
+<ul>
+    <li>
+        <p>200W 4-Ohm output</p>
+    </li>
+    <li>
+        <p>2 channels (&quot;Clean/OD&quot;, and VH4 &quot;Mega&quot;)</p>
+    </li>
+    <li>
+        <p>3rd &quot;secret&quot; channel</p>
+    </li>
+    <li>
+        <p>FX Loop</p>
+    </li>
+    <li>
+        <p>Preamp Output</p>
+    </li>
+    <li>
+        <p>Master Volume</p>
+    </li>
+    <li>
+        <p>TRS Smart Footswitch</p>
+    </li>
+</ul>
+
+<h3>Features:</h3>
+<ul>
+    <li>
+        <p>3 Momentary Footswitches</p>
+    </li>
+    <li>
+        <p>2 RGB LEDs for each channel</p>
+    </li>
+    <li>
+        <p>1 White LED for FX Loop</p>
+    </li>
+    <li>
+        <p>TRS Jack</p>
+    </li>
+</ul>
+</div>
+<hr>
+
+</div>
+<!-- END BLOG ENTRY -->

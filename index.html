@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <script src="assets/js/includeHTML.js"></script>
+
 <head>
 <title>B.F.G. DEVICES</title>
 <meta charset="UTF-8">
@@ -11,6 +12,10 @@
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
 <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+
+<script src="assets/js/prism.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/prism.css"/>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -156,7 +161,7 @@ body {font-family: "Inter", sans-serif}
       <br><br>
       <i>Want to commission a pedal?</i>
       <br><br>
-    <i class="fa fa-map-marker" style="width:30px"></i> Thousand Oaks, CA 91360, US<br>
+    <i class="fa fa-map-marker" style="width:30px"></i> Thousand Oaks, California, USA<br>
     <i class="fa fa-envelope" style="width:30px"> </i> Email: <a href="mailto: brandon@bfgdevices.com">brandon@bfgdevices.com</a><br>
     </p>
   </div>
@@ -171,7 +176,19 @@ body {font-family: "Inter", sans-serif}
 <div w3-include-html="footer.html"></div>
 <script>
 includeHTML();
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
 </script>
 </body>
 </html>
+
 

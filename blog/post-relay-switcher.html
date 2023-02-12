@@ -1,0 +1,160 @@
+<div class="w3-margin">
+  <h1>Relay Switcher</h1>
+  <div class="w3-center"><img class="w3-image w3-round-large w3-center" style="max-width:75%" src="images/blog/posts/relay-switcher/Relay-Switcher-Operating.jpg" /></div>
+  
+  <h2>About this build</h2>
+    <p>This project began as my first pedalboard grew to become just a bit unwieldly. Coming from using digital modelers and presets or snapshots, I needed a way to instantly switch in/out several pedal chains at once to go from my rhythm tone to a lead tone with added boost and delay. 
+
+    <p>There's a few extra jacks on this prototype to incorporate a Line 6 HX Stomp. A loop in the center that is always on, and some 3.5mm TRS jacks. A third mode was created that sent MIDI CC toggles to control 4 blocks on an HX Stomp. This allowed me to control 4 different blocks in tandem with the analog loops.</p>
+
+    <p>At the brain of this switcher is an Arduino based Teensy 3.6 which reads and debounces the momentary foot switch states, controls the DPDT relays that bypass the loops and drives the LEDs. It also writes to EPROM memory to maintain the loop states. A buck converter keeps the voltage nominal at 5V so it can accept 9V DC power from a pedalboard power supply. All firmware code was written myself.</p>
+
+<h3>Story time</h3>
+  
+  <p>As I started to amass a few pedals, I found myself wanting to be able to switch them, like I used to do with my Helix. I was fortunate enough to be able to try out one of the Boss ES-5 switchers, but found that it was really annoyingly complicated to program.</p>
+
+  <p>I wanted something that could be configured really easily, such that it wouldn't need a display for a menu, and could have a preset mode and a "live" editing mode. At the time, I also had an HX Stomp on my board and having capabilities for triggering a few MIDI CCs would be helpful to control a number of block bypass would be super useful.</p>
+
+  <p>I put a plan together and got down to some testing using my trusty Arduino Uno and a breadboard. This allows me to control a few DPDT Relays to pass a signal through.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:75%" src="images/blog/posts/relay-switcher/switcher-breadboard.jpg" /></div>
+
+  <p>After a while of researching relay switching techniques, I fell down a rabbit hole of chasing the "silent" switching to avoid the sound of the relay clicks bleeding into the signal, as well as blocking DC current that builds up while the pedals are in operation but switched out of the loop.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:75%" src="images/blog/posts/relay-switcher/switcher-protoboard.jpg" /></div>
+
+  <p>Ultimately, I passed on adding any caps or pull down resistors because I simply didn't know enough to implement them properly at this point. The protoboard also wouldn't really fit with the full size Arduino.</p>
+
+  <h3>So I just started solderin'</h3>
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:75%" src="images/blog/posts/relay-switcher/switcher-wiring.jpg" /></div>
+
+  <p>All the wiring was passed through the DC jack hole so I could close it up and start writing the code.</p>
+
+  <div class="w3-center"><img class="w3-image w3-round-large" style="max-width:75%" src="images/blog/posts/relay-switcher/switcher-wiringdone.jpg" /></div>
+
+  <p>That's some spaghetti wiring, but luckily, I was able to use the super small <a href="https://www.pjrc.com/store/teensy36.html">Teensy 3.6 Development Board</a> which provided all the PWM GPIO pins I could want for the switch LEDs, and plenty left over for the relays. I affixed the back of the board to the enclosure using soem dual lock.</p>
+
+  <h3>How it works</h3>
+
+  <p>Each <a href="https://www.digikey.com/en/products/detail/kemet/EA2-5NJ/13176267?utm_adgroup=Relays&utm_source=google&utm_medium=cpc&utm_campaign=Dynamic%20Search_EN_Product&utm_term=&utm_content=Relays&gclid=CjwKCAiAuaKfBhBtEiwAht6H7-jYIkV2ouCv5v7i-XgX-SzqJjKsJctIXW85bZEmbx-tQSGDLFUHkRoCnugQAvD_BwE">relay</a> is a 5V latching relay with a small coil that changes the state of the switch when current is applied. So using two GPIO pins per relay, I set one to HIGH and one to LOW, or vis versa to change trigger which way to switch.</p>
+
+<div class="w3-light-gray w3-round-large w3-padding-8">
+  <pre class="line-numbers">
+    <code class="language-c">
+      void setRelayStates(bool a, bool b, bool c, bool d)
+        { 
+          if (a == 1) {
+            digitalWrite(RELAY1_A, HIGH);
+            digitalWrite(RELAY1_B, LOW);
+          } else {
+            digitalWrite(RELAY1_A, LOW);
+            digitalWrite(RELAY1_B, HIGH);
+          }
+        ...
+    </code>
+    </pre>
+</div>
+
+<p>Essentially, a main loop runs that reads the SPST momentary foot switches, determines which mode to run in: "READ" (presets), "WRITE" (editing loop states), and "MIDI WRITE" (more on that later). Then it executes the relay state changes accordingly.</p>
+
+<h5>WRITE MODE</h5>
+
+<p>This mode makes the 4 switches on the right control the loop states by switching the relays. The state of each loop is held in a bool variable. When the user changes modes to "READ", it will recall these values.</p>
+
+<h5>READ MODE</h5>
+
+<p>This mode is like "Presets" or rather "Scenes" in that it will set all 4 loop states immediately. So any combination of the loops can be recalled.</p>
+
+
+<h5>MIDI MODE</h5>
+<p>This mode is similar to the WRITE MODE, except it doesn't control relays, but instead sends some pre-defined MIDI CC messages to the MIDI Output. This allows a device such as the Line 6 HX Stomp to assign MIDI Learn to up to 4 blocks bypass controls.</p>
+
+<div class="w3-light-gray w3-round-large w3-padding-8">
+  <pre class="line-numbers">
+    <code class="language-c">
+        void sendMIDI_CCs(bool a, bool b, bool c, bool d){
+          if (a == 1 && a != midi_a_last) {
+            MIDI.sendControlChange(MIDI_CC_A, 127, 1);
+            //Serial.print("MIDI A 127 \n");
+          } else if (a != midi_a_last){
+            MIDI.sendControlChange(MIDI_CC_A, 0, 1);
+            //Serial.print("MIDI A 0 \n");
+          }
+    </code>
+    </pre>
+</div>
+
+<h5>Re-calling states after loss of power</h5>
+<p>I forget why this feature isn't in the current <a href="https://github.com/Brandon-Frenzel/LoopSwitcher">Github repository</a>, I'll have to dig through my old files to find the version that includes this... The Teensy 3.6 also has an EPROM that can store bits of information like the loop states. This keeps the presets intact when the device has powered off. This non-volatile memory persists and is written only when the user makes a change. This memory also has a set lifetime, so the number of times it can be written is limited. Hence why it doesn't get written to unless we aboslutely have to.</p>
+<div class="w3-light-gray w3-round-large w3-padding-8">
+  <pre class="line-numbers">
+    <code class="language-c-like">
+        void writePresetsToEEPROM(struct Preset presetDelta, bool newData, int presetNum){
+          if (newData == true) {
+            
+            //.
+            //Serial.println("Writing changes to preset...");
+            EEPROM.update(128, presetNum); // save the active preset
+            
+            //remember the presets
+            for (int a=0; a < 4; a++){
+              EEPROM.put(a*8, preset[a]);
+            }
+          }
+          
+        }
+
+        void readPresetsFromEEPROM(){
+          activePreset = EEPROM.read(128); // remember the active Preset
+          Serial.println(activePreset);
+          Serial.print("Last Preset ");
+          Serial.print(activePreset);
+          //remember the presets
+          Preset presetFromEEPROM;
+          Serial.print("\nsizeof struct Preset = ");
+          Serial.print(sizeof(Preset));
+          Serial.print("\nsizeof boolean = ");
+          Serial.print(sizeof(boolean));
+          for (int a=0; a < 4; a++){
+            EEPROM.get(a*8, presetFromEEPROM);
+            preset[a] = presetFromEEPROM;
+            Serial.print("\nRead Preset ");
+            Serial.print(a);
+            Serial.print("\n");
+            Serial.print("loops \n   ");
+            Serial.print(presetFromEEPROM.loop_a);
+            Serial.print(presetFromEEPROM.loop_b);
+            Serial.print(presetFromEEPROM.loop_c);
+            Serial.print(presetFromEEPROM.loop_d);
+            Serial.print("\nMIDI \n   ");
+            Serial.print(presetFromEEPROM.midi_cc_a);
+            Serial.print(presetFromEEPROM.midi_cc_b);
+            Serial.print(presetFromEEPROM.midi_cc_c);
+            Serial.print(presetFromEEPROM.midi_cc_d);
+            Serial.print("\n");
+          }
+        }
+    </code>
+    </pre>
+</div>
+
+<h3>Artwork</h3>
+<div class="w3-center"><img class="w3-image w3-round-large" style="max-width:75%" src="images/blog/posts/relay-switcher/switcher-artwork.jpg" /></div>
+<p>I used this switcher for a couple years before I was able to get my Atomstack A5 Pro diode laser, so none of the loops or switches were labeled. Now that I had etched a few pedals, I decided to give this one a go, not knowing how the powder coat would turn out coming from a different vendor (This enclsoure came pre-drilled from Mammoth Electronics, which is no longer in business).</p>
+<p>Unfortunately, the spacing of these pre-drilled holes was a bit less precise with the placement, so some of the artwork is slightly off, which <i>kills me</i>... However, the ecthing quality did come out looking nice and it's SO much easier to hook it up now.</p>
+
+
+<h3>Retrospective</h3> 
+<p> This initial prototype served as a means to control a custom pedalboard. Much of the wiring is on proto board and has a lot of internal wiring to accomplish its feature set. Some of the extra features aren't really needed if I want to make a more accessible product.</p>
+<ul>
+    <li>Utilize a custom PCB to clean up all the wiring; a more suitable design for manufacture.</li>
+
+<li>Ditch the MIDI features or Add an opto-coupler for a MIDI input jack, so scenes can be recalled by an external device.</li>
+
+<li>Integrate silent switching - Pedals in the loops build up DC current, so some pedals exhibit a bit of a "pop" when the loop is un-bypassed.</li>
+
+<li>Add Static vs. Live Scenes - While the "live scenes" paradigm makes for a quick and dumb way to store loop configurations, it is sometimes desired to not remember on-the-fly effect changes. Having an additional mode for static scenes that are explicitly saved can allow for both types of operation.</li>
+
+<li>Remove the always-in loop and provide a method to control the BFG 200G's foot switch, or integrate with the amp itself.</li>
+
+</div>
